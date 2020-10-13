@@ -104,6 +104,8 @@ a {
 }
 
 .description {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 0 1rem;
   font-size: 1.2rem;
   color: var(--color-gray);
@@ -131,6 +133,8 @@ a {
 }
 
 .mid-message {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 0 1rem;
   font-size: 2rem;
   color: var(--color-gray);
@@ -141,6 +145,8 @@ a {
 }
 
 .canvas-caption {
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 0 1rem;
   font-size: 1.2rem;
   color: var(--color-gray);
@@ -153,6 +159,16 @@ a {
   height: 7rem;
   color: white;
   background: var(--color-darkorange);
+}
+
+/*sticky를 사용하지 않는 이유 : IE 지원 X
+fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
+.sticky-elem {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
@@ -182,5 +198,15 @@ a {
 
   .desc-message {
     width: 20%;
+  }
+
+  /*vw : 변환*/
+  .mid-message {
+    font-size: 4vw;
+  }
+
+  /*rem : 고정*/
+  .canvas-caption {
+    font-size: 2rem;
   }
 }
