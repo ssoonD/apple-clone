@@ -7,48 +7,48 @@
     let currentScene = 0; // 현재 활성화된(눈 앞에 보고있는) 씬(scroll-section)
 
     const sceneInfo = [{
-            // 0
-            type: 'sticky',
-            heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
-            scrollHeight: 0,
-            objs: {
-                container: document.querySelector('#scroll-section-0'),
-                messageA: document.querySelector('#scroll-section-0 .main-message.a'),
-                messageB: document.querySelector('#scroll-section-0 .main-message.b'),
-                messageC: document.querySelector('#scroll-section-0 .main-message.c'),
-                messageD: document.querySelector('#scroll-section-0 .main-message.d')
-            },
-            values: { // 각 object마다 어떤 CSS 값을 어떤 값으로 넣을 건지 정의
-                messageA_opacity: [0, 1]
-            }
+        // 0
+        type: 'sticky',
+        heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
+        scrollHeight: 0, // 씬의 전체 범위
+        objs: {
+            container: document.querySelector('#scroll-section-0'),
+            messageA: document.querySelector('#scroll-section-0 .main-message.a'),
+            messageB: document.querySelector('#scroll-section-0 .main-message.b'),
+            messageC: document.querySelector('#scroll-section-0 .main-message.c'),
+            messageD: document.querySelector('#scroll-section-0 .main-message.d')
         },
-        {
-            // 1
-            type: 'normal',
-            heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
-            scrollHeight: 0,
-            objs: {
-                container: document.querySelector('#scroll-section-1')
-            }
-        },
-        {
-            // 2
-            type: 'sticky',
-            heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
-            scrollHeight: 0,
-            objs: {
-                container: document.querySelector('#scroll-section-2')
-            }
-        },
-        {
-            // 3
-            type: 'sticky',
-            heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
-            scrollHeight: 0,
-            objs: {
-                container: document.querySelector('#scroll-section-3')
-            }
+        values: { // 각 object마다 어떤 CSS 값을 어떤 값으로 넣을 건지 정의
+            messageA_opacity: [0, 1]
         }
+    },
+    {
+        // 1
+        type: 'normal',
+        heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
+        scrollHeight: 0,
+        objs: {
+            container: document.querySelector('#scroll-section-1')
+        }
+    },
+    {
+        // 2
+        type: 'sticky',
+        heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
+        scrollHeight: 0,
+        objs: {
+            container: document.querySelector('#scroll-section-2')
+        }
+    },
+    {
+        // 3
+        type: 'sticky',
+        heightNum: 5, // 브라우저 높이의 5배로 scrollHeight 세팅 
+        scrollHeight: 0,
+        objs: {
+            container: document.querySelector('#scroll-section-3')
+        }
+    }
     ];
 
     function setLayout() {
@@ -73,7 +73,13 @@
 
     function calcValues(values, currentYOffset) {
         // currentYOffset : 현재 씬에서 얼마나 스크롤 됐는지
-        
+        let rv;
+        // 현재 씬(스크롤섹션)에서 스크롤된 범위를 비율로 구하기
+        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+
+        rv = scrollRatio * (values[1] - values[0]) + values[0];
+
+        return rv;
     }
 
     function playAnimation() {
@@ -84,9 +90,9 @@
         switch (currentScene) {
             case 0:
                 // console.log('0 play');
-                let messageA_opacity_0 = values.messageA_opacity[0];
-                let messageA_opacity_1 = values.messageA_opacity[1];
-                console.log(calcValues(values.messageA_opacity,currentYOffset));
+                let messageA_opacity_in = calcValues(values.messageA_opacity, currentYOffset);
+                objs.messageA.style.opacity = messageA_opacity_in;
+                // next -> 키 프레임 필요!
                 break;
             case 1:
                 // console.log('1 play');
