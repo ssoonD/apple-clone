@@ -20,7 +20,10 @@
             messageD: document.querySelector('#scroll-section-0 .main-message.d')
         },
         values: { // 각 object마다 어떤 CSS 값을 어떤 값으로 넣을 건지 정의
-            messageA_opacity: [0, 1]
+            messageA_opacity: [0, 1, { start: 0.1, end: 0.2 }],
+            messageB_opacity: [0, 1, { start: 0.3, end: 0.4 }],
+            messageC_opacity: [0, 1, { start: 0.1, end: 0.2 }],
+            messageD_opacity: [0, 1, { start: 0.1, end: 0.2 }],
         }
     },
     {
@@ -76,10 +79,26 @@
         // currentYOffset : 현재 씬에서 얼마나 스크롤 됐는지
         let rv;
         // 현재 씬(스크롤섹션)에서 스크롤된 범위를 비율로 구하기
-        let scrollRatio = currentYOffset / sceneInfo[currentScene].scrollHeight;
+        const scrollHeight = sceneInfo[currentScene].scrollHeight;
+        const scrollRatio = currentYOffset / scrollHeight;
 
-        rv = scrollRatio * (values[1] - values[0]) + values[0];
+        if (values.length === 3) {
+            // start ~ end 사이의 애니메이션 실행
+            const partScrollStart = values[2].start * scrollHeight;
+            const partScrollEnd = values[2].end * scrollHeight;
+            const partScrollHeight = partScrollEnd - partScrollStart;
 
+            if (partScrollStart <= currentYOffset && currentYOffset <= partScrollEnd) {
+                rv = (currentYOffset - partScrollStart) / partScrollHeight * (values[1] - values[0]) + values[0];
+            } else if (currentYOffset < partScrollStart) {
+                rv = values[0];
+            } else if (currentYOffset > partScrollEnd) {
+                rv = values[1];
+            }
+        } else {
+            // 현재 씬의 전체 범위에서 애니메이션 실행
+            rv = scrollRatio * (values[1] - values[0]) + values[0];
+        }
         return rv;
     }
 
@@ -136,6 +155,7 @@
         yOffset = window.pageYOffset;
         scrollLoop();
     });
+
     /* 두 개의 차이
     DOMContentLoaded : html 객체들 DOM 구조만 로딩이 끝나면 바로 실행(이미지 같은 것은 로드가 안 되더라도) -> 그래서 더 빠름
     load : 웹 페이지에 있는 이미지 같은 리소스들까지 싹 다 로딩이 되고 나서 실행 */
