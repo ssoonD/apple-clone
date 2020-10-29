@@ -80,6 +80,7 @@ a {
 .scroll-section {
   /*브라우저 창의 높이*/
   padding-top: 50vh;
+  border: 5px solid red;
 }
 
 #scroll-section-0 h1 {
