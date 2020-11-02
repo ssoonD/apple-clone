@@ -44,6 +44,7 @@
 
 		function init() {
 			document.body.classList.remove('before-load');
+			// canvas는 그려줘야 보이기 때문에 0번 index image를 그려주고 시작
 			context.drawImage(videoImages[0], 0, 0);
 
 			window.addEventListener('scroll', function () {
@@ -52,6 +53,7 @@
 				if (progress > 1) progress = 1;
 
 				currentFrame = Math.round((totalImagesCount - 1) * progress);
+				// (내가 그릴 이미지 객체, x좌표, y좌표)
 				context.drawImage(videoImages[currentFrame], 0, 0);
 			});
 		}
