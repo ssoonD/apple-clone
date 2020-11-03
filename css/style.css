@@ -34,6 +34,7 @@ a {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 10;
   width: 100%;
   height: 44px;
   padding: 0 1rem;
@@ -43,6 +44,7 @@ a {
   position: absolute;
   top: 45px;
   left: 0;
+  z-index: 11;
   width: 100%;
   height: 52px;
   padding: 0 1rem;
@@ -192,6 +194,11 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   width: 100%;
 }
 
+.sticky-elem-canvas {
+  top: 0;
+  background: #888;
+}
+
 #show-scene-0 #scroll-section-0 .sticky-elem,
 #show-scene-1 #scroll-section-1 .sticky-elem,
 #show-scene-2 #scroll-section-2 .sticky-elem,
@@ -232,7 +239,7 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
     top: 20%;
     left: 53%;
   }
-  
+
   #scroll-section-2 .c {
     left: 55%;
   }
