@@ -25,6 +25,8 @@
         values: {
             videoImageCount: 300,
             imageSequence: [0, 299],
+            // 다음 section으로 넘어갈 때 처리
+            canvas_opacity: [1, 0, { start: 0.9, end: 1 }],
             // 각 object마다 어떤 CSS 값을 어떤 값으로 넣을 건지 정의
             messageA_opacity_in: [0, 1, { start: 0.1, end: 0.2 }],
             messageB_opacity_in: [0, 1, { start: 0.3, end: 0.4 }],
@@ -182,6 +184,7 @@
                 // console.log('0 play');
                 let sequence = Math.round(calcValues(values.imageSequence, currentYOffset));
                 objs.context.drawImage(objs.videoImages[sequence], 0, 0);
+                objs.canvas.style.opacity = calcValues(values.canvas_opacity, currentYOffset);
 
                 if (scrollRatio <= 0.22) {
                     // in
@@ -302,7 +305,11 @@
     DOMContentLoaded : html 객체들 DOM 구조만 로딩이 끝나면 바로 실행(이미지 같은 것은 로드가 안 되더라도) -> 그래서 더 빠름
     load : 웹 페이지에 있는 이미지 같은 리소스들까지 싹 다 로딩이 되고 나서 실행 */
     // window.addEventListener('DOMContentLoaded', setLayout);
-    window.addEventListener('load', setLayout);
+    window.addEventListener('load', () => {
+        setLayout();
+        // 처음 문서를 load했을 때 보여주기 위함
+        sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
+    });
     // 윈도우 창의 사이즈가 변할 때 같이 반응하도록 
     window.addEventListener('resize', setLayout);
 
