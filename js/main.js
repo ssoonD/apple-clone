@@ -130,6 +130,17 @@
             }
         }
         document.body.setAttribute('id', `show-scene-${currentScene}`);
+
+        /*
+        canvas의 크기를 조정하는 방법
+        1. canvas의 width, height 자체를 script로 조절 -> canvas가 가진 픽셀수 자체를 바꾸는 것
+        -> 게임처럼 모든 화면 자체가 전부다 보이는게 좋은 경우에 사용 
+        2. css transform scale 조절 ✔
+        -> 성능상 더 유리, 계산할 것이 적어짐
+        */
+        const heightRatio = window.innerHeight / 1080;
+        // translate에서의 %는, 내 자신의 크기가 기준 
+        sceneInfo[0].objs.canvas.style.transform = `translate3d(-50%, -50%, 0) scale(${heightRatio})`;
     }
 
     function calcValues(values, currentYOffset) {
