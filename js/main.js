@@ -113,7 +113,8 @@
             /* 화면 크기를 예측할 수 없기 때문에 미리 값을 정할 수 가 없다. 
             -> 스크롤할 때 그 떄 바로 판단해서 계산 */
             rect1X: [0, 0, { start: 0, end: 0 }],
-            rect2X: [0, 0, { start: 0, end: 0 }]
+            rect2X: [0, 0, { start: 0, end: 0 }],
+            rectStartY: 0
         }
     }
     ];
@@ -329,9 +330,18 @@
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
                 objs.context.drawImage(objs.images[0], 0, 0);
 
-                // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerWidth
-                const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+                // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
+                /* window.innerWidth : 스크롤바까지 포함한 크기 (오차 발생)
+                document.body.offsetWidth : 스크롤바를 제외한 크기 (오차 극뽁) */
+                const recalculatedInnerWidth = document.body.offsetWidth / canvasScaleRatio;
                 const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
+
+                // getBoundingClientRect() : 화면상에 있는 object에 크기와 위치를 가져올 수 있는 메소드
+                if (!values.rectStartY) {
+                    values.rectStartY = objs.canvas.getBoundingClientRect().top;
+                    values.rect1X[2].end = values.rectStartY / scrollHeight;
+                    values.rect2X[2].end = values.rectStartY / scrollHeight;
+                }
 
                 const whiteRectWidth = recalculatedInnerWidth * 0.15;
                 values.rect1X[0] = (objs.canvas.width - recalculatedInnerWidth) / 2;
@@ -340,9 +350,12 @@
                 values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
 
                 // 좌우 흰색 박스 그리기 (x, y, width, height)
-                objs.context.fillRect(values.rect1X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
-                objs.context.fillRect(values.rect2X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
-                // objs.context.fillRect(parseInt(calcValues(values.rect1X, currentScene)), 0, parseInt(whiteRectWidth))
+                // 정적 
+                // objs.context.fillRect(values.rect1X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
+                // objs.context.fillRect(values.rect2X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
+                // 동적 (animation)
+                objs.context.fillRect(parseInt(calcValues(values.rect1X, currentYOffset)), 0, parseInt(whiteRectWidth), objs.canvas.height);
+                objs.context.fillRect(parseInt(calcValues(values.rect2X, currentYOffset)), 0, parseInt(whiteRectWidth), objs.canvas.height);
                 break;
         }
     }
