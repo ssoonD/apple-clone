@@ -110,7 +110,10 @@
             images: []
         },
         values: {
-
+            /* 화면 크기를 예측할 수 없기 때문에 미리 값을 정할 수 가 없다. 
+            -> 스크롤할 때 그 떄 바로 판단해서 계산 */
+            rect1X: [0, 0, { start: 0, end: 0 }],
+            rect2X: [0, 0, { start: 0, end: 0 }]
         }
     }
     ];
@@ -326,6 +329,20 @@
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
                 objs.context.drawImage(objs.images[0], 0, 0);
 
+                // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerWidth
+                const recalculatedInnerWidth = window.innerWidth / canvasScaleRatio;
+                const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
+
+                const whiteRectWidth = recalculatedInnerWidth * 0.15;
+                values.rect1X[0] = (objs.canvas.width - recalculatedInnerWidth) / 2;
+                values.rect1X[1] = values.rect1X[0] - whiteRectWidth;
+                values.rect2X[0] = values.rect1X[0] + recalculatedInnerWidth - whiteRectWidth;
+                values.rect2X[1] = values.rect2X[0] + whiteRectWidth;
+
+                // 좌우 흰색 박스 그리기 (x, y, width, height)
+                objs.context.fillRect(values.rect1X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
+                objs.context.fillRect(values.rect2X[0], 0, parseInt(whiteRectWidth), recalculatedInnerWidth);
+                // objs.context.fillRect(parseInt(calcValues(values.rect1X, currentScene)), 0, parseInt(whiteRectWidth))
                 break;
         }
     }
