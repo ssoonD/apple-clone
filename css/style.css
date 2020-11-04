@@ -224,6 +224,35 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   align-items: center;  
 }
 
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  background: white;
+  opacity: 1;
+  transition: 0.5s;
+}
+
+.loading-circle {
+  width: 54px;
+  height: 54px;
+}
+
+/* svg는 바깥의 뷰박스 설정으로인해 절대 크기 자체가 바뀔 수 있다. (상대적으로 조정)
+  -> svg는 보통 단위를 주지 않는다.  */
+.loading-circle circle {
+  stroke: black;
+  stroke-width: 4;
+  fill: none;
+
+}
+
 @media (min-width: 1024px) {
   #scroll-section-0 h1 {
     font-size: 9vw;
