@@ -222,6 +222,11 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   align-items: center;
 }
 
+.image-blend-canvas.sticky {
+  position: fixed;
+  top: 0;
+}
+
 .loading {
   display: flex;
   align-items: center;
