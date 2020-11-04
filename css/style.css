@@ -215,13 +215,12 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   left: 50%;
 }
 
-.image-blend-canvas {
-}
+.image-blend-canvas {}
 
 #scroll-section-3 {
   display: flex;
   flex-direction: column;
-  align-items: center;  
+  align-items: center;
 }
 
 .loading {
@@ -239,9 +238,30 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   transition: 0.5s;
 }
 
+@keyframes loading-spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-circle-ani {
+  0% {
+    stroke-dashoffset: 157;
+  }
+
+  75% {
+    stroke-dashoffset: -147;
+  }
+
+  100% {
+    stroke-dashoffset: -157;
+  }
+}
+
 .loading-circle {
   width: 54px;
   height: 54px;
+  animation: loading-spin 3s infinite;
 }
 
 /* svg는 바깥의 뷰박스 설정으로인해 절대 크기 자체가 바뀔 수 있다. (상대적으로 조정)
@@ -249,9 +269,17 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
 .loading-circle circle {
   stroke: black;
   stroke-width: 4;
+  /* getTotalLenght()로 stroke의 길이를 얻어올 수 있다. 
+  => document.querySelector('.loading-circle circle').getTotalLenght() */
+  stroke-dasharray: 157;
+  stroke-dashoffset: 0;
   fill: none;
-
+  animation: loading-circle-ani 1s infinite;
 }
+
+/* .loading-circle:hover circle {
+  stroke-dashoffset: -157;
+} */
 
 @media (min-width: 1024px) {
   #scroll-section-0 h1 {
