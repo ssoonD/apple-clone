@@ -216,8 +216,6 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   left: 50%;
 }
 
-.image-blend-canvas {}
-
 #scroll-section-3 {
   display: flex;
   flex-direction: column;
