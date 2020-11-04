@@ -328,6 +328,7 @@
                 }
 
                 objs.canvas.style.transform = `scale(${canvasScaleRatio})`;
+                objs.context.fillStyle = 'white';
                 objs.context.drawImage(objs.images[0], 0, 0);
 
                 // 캔버스 사이즈에 맞춰 가정한 innerWidth와 innerHeight
@@ -336,9 +337,15 @@
                 const recalculatedInnerWidth = document.body.offsetWidth / canvasScaleRatio;
                 const recalculatedInnerHeight = window.innerHeight / canvasScaleRatio;
 
-                // getBoundingClientRect() : 화면상에 있는 object에 크기와 위치를 가져올 수 있는 메소드
+                /* getBoundingClientRect() : 화면상에 있는 object에 크기와 위치를 가져올 수 있는 메소드
+                스크롤의 속도에 따라 값이 생략되면서 오차가 발생 
+                -> offsetTop (객체가 위에서부터 얼마나 떨어져 있는지 return) 사용
+                -> 고정된 값을 얻을 수 있다. */
                 if (!values.rectStartY) {
-                    values.rectStartY = objs.canvas.getBoundingClientRect().top;
+                    // values.rectStartY = objs.canvas.getBoundingClientRect().top;
+                    values.rectStartY = objs.canvas.offsetTop + (objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2;
+                    values.rect1X[2].start = (window.innerHeight / 2) / scrollHeight;
+                    values.rect2X[2].start = (window.innerHeight / 2) / scrollHeight;
                     values.rect1X[2].end = values.rectStartY / scrollHeight;
                     values.rect2X[2].end = values.rectStartY / scrollHeight;
                 }
