@@ -407,12 +407,12 @@
                     step = 2;
                     // image blend
 
-                    // 1. 그림이 채워지는 구간
+                    // 1. 그림이 채워지는 구간 (blend)
                     // values.blendHeight : [0, 0, { start: 0, end: 0 }]
                     values.blendHeight[0] = 0;
                     values.blendHeight[1] = objs.canvas.height;
                     values.blendHeight[2].start = values.rect1X[2].end; // 2번째 animation이 끝날 때
-                    // 해당 scene의 전체 scroll height의 20%에 해당하는 구간동안 animation 재생
+                    // 해당 scene의 전체 scroll height의 20%에 해당하는 구간동안 animation 재생 (duration)
                     values.blendHeight[2].end = values.blendHeight[2].start + 0.2;
                     const blendHeight = calcValues(values.blendHeight, currentYOffset);
 
@@ -430,7 +430,7 @@
                     objs.canvas.classList.add('sticky');
                     objs.canvas.style.top = `${-(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
 
-                    // 2. 그림이 작아지는 구간
+                    // 2. 그림이 작아지는 구간 (축소)
                     // section 3의 두번째 animation의 초기값 최종값 타이밍
                     if (scrollRatio > values.blendHeight[2].end) {
                         values.canvas_scale[0] = canvasScaleRatio;
@@ -439,6 +439,16 @@
                         values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
 
                         objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
+                        // 스크롤을 위로올렸을 떄 margintop이 생겨 animation 실행이 안되는 문제 해결
+                        objs.canvas.style.marginTop = 0;
+                    }
+
+                    // 3. 그림이 올라가는 구간 (fixed 삭제)
+                    if (scrollRatio > values.canvas_scale[2].end && values.canvas_scale[2].end > 0) {
+                        // sticky가 삭제되었을 때의 위치 지정
+                        // -> 두 개의 animation의 duration 합이 0.2+0.2 = 0.4
+                        objs.canvas.classList.remove('sticky');
+                        objs.canvas.style.marginTop = `${scrollHeight * 0.4}px`;
                     }
                 }
 
