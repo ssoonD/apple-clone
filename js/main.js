@@ -115,6 +115,7 @@
             rect1X: [0, 0, { start: 0, end: 0 }],
             rect2X: [0, 0, { start: 0, end: 0 }],
             blendHeight: [0, 0, { start: 0, end: 0 }],
+            canvas_scale: [0, 0, { start: 0, end: 0 }],
             rectStartY: 0
         }
     }
@@ -405,10 +406,13 @@
                 } else {
                     step = 2;
                     // image blend
-                    // imageBlendY : [0, 0, { start: 0, end: 0 }]
+
+                    // 1. 그림이 채워지는 구간
+                    // values.blendHeight : [0, 0, { start: 0, end: 0 }]
                     values.blendHeight[0] = 0;
                     values.blendHeight[1] = objs.canvas.height;
                     values.blendHeight[2].start = values.rect1X[2].end; // 2번째 animation이 끝날 때
+                    // 해당 scene의 전체 scroll height의 20%에 해당하는 구간동안 animation 재생
                     values.blendHeight[2].end = values.blendHeight[2].start + 0.2;
                     const blendHeight = calcValues(values.blendHeight, currentYOffset);
 
@@ -425,6 +429,17 @@
 
                     objs.canvas.classList.add('sticky');
                     objs.canvas.style.top = `${-(objs.canvas.height - objs.canvas.height * canvasScaleRatio) / 2}px`;
+
+                    // 2. 그림이 작아지는 구간
+                    // section 3의 두번째 animation의 초기값 최종값 타이밍
+                    if (scrollRatio > values.blendHeight[2].end) {
+                        values.canvas_scale[0] = canvasScaleRatio;
+                        values.canvas_scale[1] = document.body.offsetWidth / (objs.canvas.width * 1.5);
+                        values.canvas_scale[2].start = values.blendHeight[2].end;
+                        values.canvas_scale[2].end = values.canvas_scale[2].start + 0.2;
+
+                        objs.canvas.style.transform = `scale(${calcValues(values.canvas_scale, currentYOffset)})`;
+                    }
                 }
 
                 break;
