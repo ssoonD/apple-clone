@@ -148,6 +148,15 @@
     }
     setCanvasImages();
 
+    function checkMenu() {
+        // 44 : global-nav의 height
+        if (yOffset > 44) {
+            document.body.classList.add('local-nav-sticky');
+        } else {
+            document.body.classList.remove('local-nav-sticky');
+        }
+    }
+
     function setLayout() {
         // 각 스크롤 섹션의 높이 세팅
         for (let i = 0; i < sceneInfo.length; i++) {
@@ -497,6 +506,7 @@
     window.addEventListener('scroll', () => {
         yOffset = window.pageYOffset;
         scrollLoop();
+        checkMenu();
     });
 
     /* 두 개의 차이
