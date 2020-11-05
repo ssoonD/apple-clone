@@ -116,6 +116,9 @@
             rect2X: [0, 0, { start: 0, end: 0 }],
             blendHeight: [0, 0, { start: 0, end: 0 }],
             canvas_scale: [0, 0, { start: 0, end: 0 }],
+            canvas_scale: [0, 0, { start: 0, end: 0 }],
+            canvasCaption_opacity: [0, 1, { start: 0, end: 0 }],
+            canvasCaption_translateY: [20, 0, { start: 0, end: 0 }],
             rectStartY: 0
         }
     }
@@ -449,6 +452,16 @@
                         // -> 두 개의 animation의 duration 합이 0.2+0.2 = 0.4
                         objs.canvas.classList.remove('sticky');
                         objs.canvas.style.marginTop = `${scrollHeight * 0.4}px`;
+
+                        // 4. 문단 구간
+                        // start, end 시점 계산
+                        values.canvasCaption_opacity[2].start = values.canvas_scale[2].end;
+                        values.canvasCaption_opacity[2].end = values.canvasCaption_opacity[2].start + 0.1;
+                        values.canvasCaption_translateY[2].start = values.canvasCaption_opacity[2].start;
+                        values.canvasCaption_translateY[2].end = values.canvasCaption_opacity[2].end;
+                        // animation 적용 
+                        objs.canvasCaption.style.opacity = calcValues(values.canvasCaption_opacity, currentYOffset);
+                        objs.canvasCaption.style.transform = `translate3d(0, ${calcValues(values.canvasCaption_translateY, currentYOffset)}%, 0)`;
                     }
                 }
 
