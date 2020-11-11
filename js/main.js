@@ -558,8 +558,19 @@
         // 처음 문서를 load했을 때 보여주기 위함
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
     });
+
     // 윈도우 창의 사이즈가 변할 때 같이 반응하도록 
-    window.addEventListener('resize', setLayout);
+    window.addEventListener('resize', () => {
+        // 핸드폰은 resize될 일이 없기 때문에
+        if (window.innerWidth > 900) {
+            setLayout();
+        }
+        // resize될 때 값을 refresh하기 위해서
+        sceneInfo[3].values.rectStartY = 0;
+    });
+
+    // orientationchange : 모바일 기기를 가로,세로로 변경할 때 발생하는 event
+    window.addEventListener('orientationchange', setLayout);
 
     setCanvasImages();
 
