@@ -537,17 +537,6 @@
         }
     }
 
-    window.addEventListener('scroll', () => {
-        yOffset = window.pageYOffset;
-        scrollLoop();
-        checkMenu();
-
-        if (!rafState) {
-            rafId = requestAnimationFrame(loop);
-            rafState = true;
-        }
-    });
-
     /* 두 개의 차이
     DOMContentLoaded : html 객체들 DOM 구조만 로딩이 끝나면 바로 실행(이미지 같은 것은 로드가 안 되더라도) -> 그래서 더 빠름
     load : 웹 페이지에 있는 이미지 같은 리소스들까지 싹 다 로딩이 되고 나서 실행 */
@@ -557,27 +546,38 @@
         setLayout();
         // 처음 문서를 load했을 때 보여주기 위함
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
-    });
 
-    // 윈도우 창의 사이즈가 변할 때 같이 반응하도록 
-    window.addEventListener('resize', () => {
-        // 핸드폰은 resize될 일이 없기 때문에
-        if (window.innerWidth > 900) {
-            setLayout();
-        }
-        // resize될 때 값을 refresh하기 위해서
-        sceneInfo[3].values.rectStartY = 0;
-    });
+        window.addEventListener('scroll', () => {
+            yOffset = window.pageYOffset;
+            scrollLoop();
+            checkMenu();
 
-    // orientationchange : 모바일 기기를 가로,세로로 변경할 때 발생하는 event
-    window.addEventListener('orientationchange', setLayout);
+            if (!rafState) {
+                rafId = requestAnimationFrame(loop);
+                rafState = true;
+            }
+        });
+
+        // 윈도우 창의 사이즈가 변할 때 같이 반응하도록 
+        window.addEventListener('resize', () => {
+            // 핸드폰은 resize될 일이 없기 때문에
+            if (window.innerWidth > 900) {
+                setLayout();
+            }
+            // resize될 때 값을 refresh하기 위해서 
+            sceneInfo[3].values.rectStartY = 0;
+        });
+
+        // orientationchange : 모바일 기기를 가로,세로로 변경할 때 발생하는 event
+        window.addEventListener('orientationchange', setLayout);
+
+        /* transition이 발생했을 때 제거
+        화살표 함수를 사용했기 때문에 this를 사용할 수 없다.
+        화살표 함수 안에서의 this는 전역객체를 가리킨다. */
+        document.querySelector('.loading').addEventListener('transitionend', (e) => {
+            document.body.removeChild(e.currentTarget); // currentTargt = loading
+        });
+    });
 
     setCanvasImages();
-
-    /* transition이 발생했을 때 제거
-    화살표 함수를 사용했기 때문에 this를 사용할 수 없다.
-    화살표 함수 안에서의 this는 전역객체를 가리킨다. */
-    document.querySelector('.loading').addEventListener('transitionend', (e) => {
-        document.body.removeChild(e.currentTarget); // currentTargt = loading
-    });
 })();

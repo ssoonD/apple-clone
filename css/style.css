@@ -30,6 +30,11 @@ a {
   text-decoration: none;
 }
 
+/* 로딩 중 스크롤 잠금 */
+body.before-load {
+  overflow: hidden;
+}
+
 .global-nav {
   position: absolute;
   top: 0;
