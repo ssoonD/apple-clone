@@ -209,6 +209,8 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
 #show-scene-2 #scroll-section-2 .sticky-elem,
 #show-scene-3 #scroll-section-3 .sticky-elem {
   display: block;
+  /* 성능 비용이 큰 작업을 실제로 요구되기 전에 미리 실행함으로써 페이지의 반응성을 증가시킬 수 있다. */
+  will-change: transform, opacity;
 }
 
 .sticky-elem-canvas {
