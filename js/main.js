@@ -150,7 +150,6 @@
             sceneInfo[3].objs.images.push(imgElem3);
         }
     }
-    setCanvasImages();
 
     function checkMenu() {
         // 44 : global-nav의 height
@@ -561,6 +560,8 @@
     });
     // 윈도우 창의 사이즈가 변할 때 같이 반응하도록 
     window.addEventListener('resize', setLayout);
+
+    setCanvasImages();
 
     /* transition이 발생했을 때 제거
     화살표 함수를 사용했기 때문에 this를 사용할 수 없다.
