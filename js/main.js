@@ -547,6 +547,25 @@
         // 처음 문서를 load했을 때 보여주기 위함
         sceneInfo[0].objs.context.drawImage(sceneInfo[0].objs.videoImages[0], 0, 0);
 
+        // 버그 수정 2
+        // 새로 고침 했을 때 canvas를 그려주지 않음(스크롤이 안 됐기 때문에)
+        // -> 약간의 스크롤을 해줌 (2px씩 10번 부드럽게)
+        // scrollTo(x,y) : (x,y)픽셀 위치로 스크롤 해줌 -> 시간차 필요
+        let tempYOffset = yOffset; // 현재 스크롤 위치
+        let tempScrollCount = 0; // 몇번 했는지
+        if (yOffset > 0) { // 맨 위에서 새로고침 했을 때 방지
+            let siId = setInterval(() => {
+                window.scrollTo(0, tempYOffset);
+                tempYOffset += 2;
+
+                if (tempScrollCount > 10) {
+                    clearInterval(siId);
+                }
+
+                tempScrollCount++;
+            }, 20);
+        }
+
         window.addEventListener('scroll', () => {
             yOffset = window.pageYOffset;
             scrollLoop();
