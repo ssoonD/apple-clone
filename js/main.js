@@ -493,9 +493,19 @@
             prevScrollHeight += sceneInfo[i].scrollHeight;
         }
 
+        if (delayedYOffset < prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
+            document.body.classList.remove('scroll-effect-end');
+        }
+
         if (delayedYOffset > prevScrollHeight + sceneInfo[currentScene].scrollHeight) {
             enterNewScene = true;
-            currentScene++;
+            if (currentScene === sceneInfo.length - 1) {
+                document.body.classList.add('scroll-effect-end');
+            }
+            // 하단 콘텐츠 추가 시 currentScene이 4가 되어 에러 발생 -> 해결
+            if (currentScene < sceneInfo.length - 1) {
+                currentScene++;
+            }
             document.body.setAttribute('id', `show-scene-${currentScene}`);
         }
         if (delayedYOffset < prevScrollHeight) {

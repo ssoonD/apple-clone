@@ -223,6 +223,10 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   will-change: transform, opacity;
 }
 
+.scroll-effect-end .sticky-elem {
+  display: none !important;
+}
+
 .sticky-elem-canvas {
   top: 0;
   height: 100%;
@@ -319,6 +323,10 @@ default로 써야 할 scene이 있고 script로 강제로 높이를 세팅한 sc
 /* .loading-circle:hover circle {
   stroke-dashoffset: -157;
 } */
+
+.normal-content {
+  margin-bottom: 10rem;
+}
 
 @media (min-width: 1024px) {
   #scroll-section-0 h1 {
