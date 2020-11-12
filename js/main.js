@@ -581,15 +581,17 @@
         window.addEventListener('resize', () => {
             // 핸드폰은 resize될 일이 없기 때문에
             if (window.innerWidth > 900) {
-                setLayout();
-                // resize될 때 값을 refresh하기 위해서 
-                sceneInfo[3].values.rectStartY = 0;
+                // 3번째 신에서 그때그때 체크해 줘야 할 값이 많아짐 -> 에러 발생 -> 사이즈 바뀔 때마다 새로 고침
+                window.location.reload();
             }
         });
 
         // orientationchange : 모바일 기기를 가로,세로로 변경할 때 발생하는 event
         window.addEventListener('orientationchange', () => {
-            setTimeout(setLayout, 500);
+            scrollTo(0, 0);
+            setTimeout(() => {
+                window.location.reload();
+            }, 500);
         });
 
         /* transition이 발생했을 때 제거
