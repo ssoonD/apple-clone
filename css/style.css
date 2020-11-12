@@ -266,6 +266,12 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
   transition: 0.5s;
 }
 
+/* default로 써야 할 scene이 있고 script로 강제로 높이를 세팅한 scene이 있어서 충돌이 생겨 (특정 위치에서 새로 고침 했을 때) 문제 발생
+-> 처음에는 다 안 보이게 높이를 없애버리고 문서 로드가 끝나서 제대로 세팅이 될 수 있을 시점에 눈에 보이게 해주기 */
+.before-load .container {
+  display: none;
+}
+
 .before-load .loading {
   opacity: 1;
 }
