@@ -35,6 +35,11 @@ body.before-load {
   overflow: hidden;
 }
 
+.container {
+  /* iPhone 가로 스크롤 방지 */
+  overflow-x: hidden;
+}
+
 .global-nav {
   position: absolute;
   top: 0;
@@ -60,6 +65,11 @@ body.before-load {
   position: fixed;
   top: 0;
   background: rgba(255, 255, 255, 0.1);
+  /* 상단 메뉴 뒤 뿌옇게 안됨 */
+  /* for iPhone */
+  -webkit-backdrop-filter: saturate(180%) blur(15px);
+  -moz-backdrop-filter: saturate(180%) blur(15px);
+  -o-backdrop-filter: saturate(180%) blur(15px);
   backdrop-filter: saturate(180%) blur(15px);
 }
 
@@ -180,7 +190,7 @@ body.before-load {
 
 .canvas-caption {
   max-width: 1000px;
-  margin: -8em auto 0;
+  margin: -24rem auto 0;
   padding: 0 1rem;
   font-size: 1.2rem;
   color: var(--color-gray);
@@ -351,6 +361,7 @@ fixed를 사용했기 떄문에 js에서 처리해줘야 한다 */
 
   /*rem : 고정*/
   .canvas-caption {
+    margin-top: -8rem;
     padding: 0;
     font-size: 2rem;
   }

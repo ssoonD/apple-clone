@@ -563,13 +563,15 @@
             // 핸드폰은 resize될 일이 없기 때문에
             if (window.innerWidth > 900) {
                 setLayout();
+                // resize될 때 값을 refresh하기 위해서 
+                sceneInfo[3].values.rectStartY = 0;
             }
-            // resize될 때 값을 refresh하기 위해서 
-            sceneInfo[3].values.rectStartY = 0;
         });
 
         // orientationchange : 모바일 기기를 가로,세로로 변경할 때 발생하는 event
-        window.addEventListener('orientationchange', setLayout);
+        window.addEventListener('orientationchange', () => {
+            setTimeout(setLayout, 500);
+        });
 
         /* transition이 발생했을 때 제거
         화살표 함수를 사용했기 때문에 this를 사용할 수 없다.
