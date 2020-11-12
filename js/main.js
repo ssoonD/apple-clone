@@ -552,6 +552,7 @@
     load : 웹 페이지에 있는 이미지 같은 리소스들까지 싹 다 로딩이 되고 나서 실행 */
     // window.addEventListener('DOMContentLoaded', setLayout);
     window.addEventListener('load', () => {
+        setLayout();
         document.body.classList.remove('before-load');
         setLayout();
         // 처음 문서를 load했을 때 보여주기 위함
